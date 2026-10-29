@@ -1,0 +1,1 @@
+Flight number * (e.g. KQ100),Airline (IATA Code) * (e.g. KQ),Origin Airport (IATA Code) * (e.g. NBO),Destination Airport (IATA Code) * (e.g. MBA),Flight type,Cabin class,Scheduled departure * (e.g. 2026-07-01),Scheduled arrival * (e.g. 2026-07-01),Duration minutes * (e.g. 12),"Days of week (e.g. 0,1,2,3,4,5,6)",Aircraft Type (fleet code) (e.g. B738),Seats (e.g. 12),Is active

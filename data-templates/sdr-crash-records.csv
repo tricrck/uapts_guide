@@ -1,0 +1,1 @@
+Reporting Agency (code) *,Crash Ref * (e.g. NTSA-2026-003412),Road Owner Agency (code),Local Road ID * (e.g. A104),Chainage (m),Occurred At * (e.g. 2026-10-01 14:30),Severity *,Fatality Category *,Fatalities (e.g. 12),Serious injuries (e.g. 12),Minor injuries (e.g. 12),Cause of Accident *,Weather condition,Road condition,Latitude (e.g. 8.2),Longitude (e.g. 8.2)

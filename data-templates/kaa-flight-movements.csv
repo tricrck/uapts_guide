@@ -1,0 +1,1 @@
+Flight Number * (e.g. KQ100),Flight Date * (e.g. 2026-10-03),Flight Status,Aircraft Registration (e.g. 5Y-KYA),Terminal,Gate / Stand,Actual Departure (e.g. 2026-07-01),Actual Arrival (e.g. 2026-07-01),Departure Delay (min) (e.g. 12),Arrival Delay (min) (e.g. 12),Delay Reason Code,Delay Reason (text),Passengers Booked (e.g. 12),Passengers Carried (e.g. 12),Cargo (kg) (e.g. 8.2)

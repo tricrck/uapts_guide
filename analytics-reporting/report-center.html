@@ -1,0 +1,648 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light"><link rel="icon" href="https://uapts.transport.go.ke/uapts-logo.png">
+<title>Report Center - UAPTS User Guide</title><style>
+:root{--brand:#0f4c8a;--gold:#f2b705;--bg:#fff;--fg:#1c2733;--muted:#5b6b7b;--line:#e3e8ee;
+--side:#f6f8fb;--code:#f1f4f8;--hover:#e6eef8;--side-w:288px;--toc-w:220px;--hdr:56px;--ease:cubic-bezier(.4,0,.2,1)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:clamp(14px,1.5vw,15.5px)/1.65 Inter,system-ui,"Segoe UI",Roboto,sans-serif;color:var(--fg);background:var(--bg);overflow-x:hidden}
+a{color:var(--brand)}
+img{max-width:100%;height:auto}
+
+/* Header */
+header{position:sticky;top:0;z-index:20;height:var(--hdr);background:var(--brand);color:#fff;border-bottom:3px solid var(--gold);
+display:flex;align-items:center;gap:12px;padding:0 clamp(10px,2vw,20px)}
+.iconbtn{background:transparent;border:0;color:#fff;width:38px;height:38px;border-radius:8px;display:grid;place-items:center;cursor:pointer;flex:none;transition:background .2s}
+.iconbtn:hover{background:rgba(255,255,255,.16)}
+.ic{width:20px;height:20px;flex:none}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;min-width:0}
+.logo{height:34px;width:auto;background:#fff;border-radius:6px;padding:3px 6px;display:block;flex:none}
+.brand b{font-weight:700;letter-spacing:.04em;white-space:nowrap}
+.brand small{opacity:.8;font-weight:400;white-space:nowrap}
+.search{margin-left:auto;position:relative;display:flex;align-items:center;min-width:0;width:clamp(130px,28vw,300px)}
+.search .ic{position:absolute;left:9px;color:var(--muted);pointer-events:none;width:16px;height:16px}
+#q{width:100%;padding:7px 12px 7px 32px;border-radius:8px;border:0;font:inherit;font-size:14px;color:var(--fg);background:#fff;min-width:0}
+#q:focus{outline:2px solid var(--gold)}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:var(--side-w) minmax(0,1fr) var(--toc-w);max-width:1600px;margin:0 auto;
+transition:grid-template-columns .3s var(--ease)}
+body.nav-off{--side-w:0px}
+
+/* Sidebar */
+nav.side{position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));overflow:hidden;background:var(--side);transition:width .3s var(--ease)}
+nav.side .scroll{position:relative;width:var(--side-w-inner,288px);height:100%;overflow:auto;padding:10px 10px 60px;font-size:13.5px;
+border-right:1px solid var(--line);background:var(--side)}
+body.nav-off nav.side .scroll{border-right-color:transparent}
+.sec-h{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:6px;width:100%;padding:8px 10px;margin-top:8px;cursor:pointer;
+color:var(--brand);font-weight:700;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;border-radius:7px;transition:background .2s}
+.sec-h:hover{background:var(--hover)}
+.sec-h:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.chev{width:15px;height:15px;transition:transform .28s var(--ease)}
+.sec.closed .chev{transform:rotate(-90deg)}
+.sec-b{display:grid;grid-template-rows:1fr;transition:grid-template-rows .28s var(--ease)}
+.sec.closed .sec-b{grid-template-rows:0fr}
+.sec-i{min-height:0;overflow:hidden}
+.sec .sec .sec-h{font-size:11px;padding-left:20px}
+.link{display:flex;align-items:center;gap:9px;padding:6px 10px 6px 14px;margin:1px 0;border-radius:7px;color:var(--fg);text-decoration:none;
+transition:background .2s,color .2s,transform .2s}
+.link .ic{width:16px;height:16px;color:var(--muted);transition:color .2s}
+.link span{min-width:0;overflow-wrap:anywhere}
+.link:hover{background:var(--hover);transform:translateX(2px)}
+.link.cur{background:var(--brand);color:#fff}
+.link.cur .ic{color:var(--gold)}
+.sec-i .sec-i .link{padding-left:26px}
+.hide{display:none!important}
+nav.side.filtering .sec .sec-b{grid-template-rows:1fr}
+nav.side.filtering .sec .chev{transform:none}
+
+/* Main */
+main{min-width:0;padding:clamp(18px,3vw,40px) clamp(16px,4vw,56px) 80px}
+main h1{font-size:clamp(24px,3.4vw,32px);margin:0 0 4px;line-height:1.2}
+main h2{margin-top:36px;padding-bottom:6px;border-bottom:1px solid var(--line);line-height:1.3}
+main h3{margin-top:26px}
+main img{border:1px solid var(--line);border-radius:8px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+main table{display:block;overflow:auto;max-width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0}
+main th,main td{border:1px solid var(--line);padding:6px 10px;vertical-align:top;text-align:left}
+main th{background:var(--side)}
+main blockquote{margin:14px 0;padding:10px 16px;border-left:4px solid var(--gold);background:#fffbea;color:#4a3b00}
+main pre{max-width:100%;overflow-x:auto;background:var(--code);padding:12px;border-radius:8px}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:90%;overflow-wrap:anywhere}
+main pre code{background:none;padding:0}
+
+/* On this page */
+aside.toc{position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));overflow:auto;padding:28px 14px;font-size:13px}
+aside.toc b{display:block;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:.06em}
+aside.toc a{display:block;color:var(--muted);text-decoration:none;padding:2px 0}
+aside.toc a:hover{color:var(--brand)}
+
+.scrim{display:none}
+
+/* Tablet: hide the TOC */
+@media (max-width:1180px){
+  .layout{grid-template-columns:var(--side-w) minmax(0,1fr)}
+  aside.toc{display:none}
+}
+
+/* Phone: sidebar becomes an off-canvas drawer */
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .brand small{display:none}
+  nav.side{position:fixed;top:var(--hdr);left:0;bottom:0;height:auto;width:min(86vw,320px);z-index:15;
+  transform:translateX(-102%);transition:transform .3s var(--ease);box-shadow:0 0 24px rgba(0,0,0,.2)}
+  nav.side .scroll{width:100%;border-right:0}
+  body.nav-open nav.side{transform:none}
+  body.nav-open .scrim{display:block;position:fixed;inset:var(--hdr) 0 0 0;background:rgba(10,20,30,.4);z-index:14}
+  main{padding:18px 16px 60px}
+}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head><body>
+<header>
+  <button class="iconbtn" id="navbtn" type="button" aria-label="Toggle sidebar" aria-controls="sidenav"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
+  <a class="brand" href="../index.html">
+    <img class="logo" src="https://uapts.transport.go.ke/uapts-logo.png" alt="UAPTS" onerror="this.remove()">
+    <span><b>UAPTS</b> <small>User Guide</small></span>
+  </a>
+  <label class="search"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Filter pages (Ctrl K)" aria-label="Filter pages"></label>
+</header>
+<div class="layout">
+  <nav class="side" id="sidenav"><div class="scroll"><section class="sec" data-key="Getting started"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Getting started</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../getting-started/welcome.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Welcome</span></a><a class="link" href="../getting-started/how-to-access.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>How to access</span></a><a class="link" href="../getting-started/navigation-and-shortcuts.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Navigation and shortcuts</span></a><section class="sec" data-key="Personalise"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Personalise</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../getting-started/personalise/password.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Password</span></a><a class="link" href="../getting-started/personalise/profile-update.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Profile update</span></a><a class="link" href="../getting-started/personalise/theme-change.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Theme change</span></a><a class="link" href="../getting-started/personalise/two-factor-authentication.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Two-factor authentication</span></a></div></div></section></div></div></section><section class="sec" data-key="Command Centre"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Command Centre</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../command-centre/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../command-centre/home.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Home</span></a></div></div></section><section class="sec" data-key="Road Traffic Management"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Road Traffic Management</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../traffic/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../traffic/live-traffic-map.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Live Traffic Map</span></a><a class="link" href="../traffic/traffic-analytics.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Traffic Analytics</span></a><a class="link" href="../traffic/traffic-alerts.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Traffic Alerts</span></a></div></div></section><section class="sec" data-key="Fleet &amp; Vehicle Tracking"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Fleet &amp; Vehicle Tracking</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../fleet/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../fleet/fleet-overview.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Fleet Overview</span></a><a class="link" href="../fleet/driver-behaviour.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Driver Behaviour</span></a><a class="link" href="../fleet/live-positions.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Live Positions</span></a><a class="link" href="../fleet/geofences.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Geofences</span></a><a class="link" href="../fleet/trip-playback.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Trip Playback</span></a></div></div></section><section class="sec" data-key="Public Transport"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Public Transport</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../public-transport/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../public-transport/operations-overview.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Operations Overview</span></a><a class="link" href="../public-transport/psv-compliance.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>PSV Compliance</span></a><a class="link" href="../public-transport/brt-stops-headway.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>BRT Stops &amp; Headway</span></a><a class="link" href="../public-transport/public-operators.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Public Operators</span></a><a class="link" href="../public-transport/vehicle-registration.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Vehicle Registration</span></a><a class="link" href="../public-transport/vehicle-inspections.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Vehicle Inspections</span></a><a class="link" href="../public-transport/driver-licensing.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Driver Licensing</span></a></div></div></section><section class="sec" data-key="Safety &amp; Incidents"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Safety &amp; Incidents</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../safety/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../safety/safety-overview.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Safety Overview</span></a><a class="link" href="../safety/incident-command.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Incident Command</span></a><a class="link" href="../safety/blackspot-analysis.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Blackspot Analysis</span></a><a class="link" href="../safety/safety-kpis.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Safety KPIs</span></a></div></div></section><section class="sec" data-key="Road Infrastructure"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Road Infrastructure</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../infrastructure/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../infrastructure/infrastructure-overview.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Overview</span></a><a class="link" href="../infrastructure/road-network-inventory.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Road Network Inventory</span></a><a class="link" href="../infrastructure/road-infrastructure-status.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Road Infrastructure Status</span></a><a class="link" href="../infrastructure/bridges-and-assets.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Bridges &amp; Assets</span></a><a class="link" href="../infrastructure/funding-allocations.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Funding Allocations</span></a><a class="link" href="../infrastructure/maintenance-orders.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Maintenance Orders</span></a></div></div></section><section class="sec" data-key="Aviation"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Aviation</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../aviation/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../aviation/aviation-overview.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Overview</span></a><a class="link" href="../aviation/flight-movements.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Flight Movements</span></a><a class="link" href="../aviation/flight-log.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Flight Log</span></a><a class="link" href="../aviation/passenger-stats.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Passenger Stats</span></a><a class="link" href="../aviation/aircraft-licencing.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Aircraft Licencing</span></a><a class="link" href="../aviation/aviation-infrastructure.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Aviation Infrastructure</span></a></div></div></section><section class="sec" data-key="Maritime"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Maritime</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../maritime/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../maritime/maritime-overview.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Overview</span></a><a class="link" href="../maritime/vessel-movements.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Vessel Movements</span></a><a class="link" href="../maritime/vessel-registry.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Vessel Registry</span></a><a class="link" href="../maritime/port-operations.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Port Operations</span></a><a class="link" href="../maritime/port-services.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Port Services</span></a><a class="link" href="../maritime/cargo-tracking.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Cargo Tracking</span></a><a class="link" href="../maritime/imports-and-exports.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Imports and Exports</span></a><a class="link" href="../maritime/waterways.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Waterways</span></a><a class="link" href="../maritime/maritime-infrastructure.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Maritime Infrastructure</span></a><a class="link" href="../maritime/accidents-and-safety.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Accidents &amp; Safety</span></a><a class="link" href="../maritime/green-transport.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Green Transport</span></a><a class="link" href="../maritime/performance-and-ranking.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Performance &amp; Ranking</span></a></div></div></section><section class="sec" data-key="Railway"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Railway</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../railway/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../railway/railway-overview.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Railway Overview</span></a><a class="link" href="../railway/train-operations.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Train Operations</span></a><a class="link" href="../railway/freight-volumes.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Freight Volumes</span></a><a class="link" href="../railway/schedules.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Schedules</span></a><a class="link" href="../railway/rail-infrastructure.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Rail Infrastructure</span></a><a class="link" href="../railway/rail-network-inventory.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Rail Network Inventory</span></a><a class="link" href="../railway/rail-safety.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Rail Safety</span></a></div></div></section><section class="sec" data-key="Corridor &amp; Trade"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Corridor &amp; Trade</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../corridor/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../corridor/corridor-overview.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Overview</span></a><a class="link" href="../corridor/northern-corridor.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Northern Corridor</span></a><a class="link" href="../corridor/border-crossings.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Border Crossings</span></a><a class="link" href="../corridor/transit-declarations.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Transit Declarations</span></a><a class="link" href="../corridor/lapsset-corridor.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>LAPSSET Corridor</span></a></div></div></section><section class="sec" data-key="Analytics &amp; Reporting"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Analytics &amp; Reporting</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../analytics-reporting/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../analytics-reporting/ai-predictive-workbench.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>AI Predictive Workbench</span></a><a class="link" href="../analytics-reporting/query-builder.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Query Builder</span></a><a class="link cur" href="../analytics-reporting/report-center.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Report Center</span></a></div></div></section><section class="sec" data-key="Integration Hub"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Integration Hub</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../integration-hub/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../integration-hub/upload-and-connect.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Upload &amp; Connect</span></a><a class="link" href="../integration-hub/files-and-feeds.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Files &amp; Feeds</span></a><a class="link" href="../integration-hub/upload-detail.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Upload detail</span></a><a class="link" href="../integration-hub/feed-detail.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Feed detail</span></a><a class="link" href="../integration-hub/ingestion-analytics.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Ingestion Analytics</span></a></div></div></section><section class="sec" data-key="GIS &amp; Spatial Analysis"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>GIS &amp; Spatial Analysis</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../gis/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../gis/gis-explorer.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>GIS Explorer</span></a><a class="link" href="../gis/layer-overview.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Layer Overview</span></a><a class="link" href="../gis/layer-coverage.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Layer Coverage</span></a><a class="link" href="../gis/layer-catalogue.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Layer Catalogue</span></a><a class="link" href="../gis/layer-analysis.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Layer analysis</span></a><a class="link" href="../gis/layer-requests.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Layer Requests</span></a></div></div></section><section class="sec" data-key="Training Institutes"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Training Institutes</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../training/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../training/training-overview.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Overview</span></a><a class="link" href="../training/cohorts.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Cohorts</span></a><a class="link" href="../training/enrollments.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Enrollments</span></a><a class="link" href="../training/certificates.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Certificates</span></a></div></div></section><section class="sec" data-key="Notifications"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Notifications</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../notifications/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../notifications/notification-feed.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Notification Feed</span></a><a class="link" href="../notifications/alert-rules.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Alert Rules</span></a></div></div></section><section class="sec" data-key="Access Control"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Access Control</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../access-control/index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module guide</span></a><a class="link" href="../access-control/agencies.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Agencies</span></a><a class="link" href="../access-control/user-management.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>User Management</span></a><a class="link" href="../access-control/roles-and-permissions.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Roles &amp; Permissions</span></a><a class="link" href="../access-control/module-access.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Module Access</span></a><a class="link" href="../access-control/dashboard-manager.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Dashboard Manager</span></a><a class="link" href="../access-control/dashboard-editor.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Dashboard editor</span></a><a class="link" href="../access-control/audit-trail.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Audit Trail</span></a></div></div></section><section class="sec" data-key="Reference"><button class="sec-h" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Reference</span></button><div class="sec-b"><div class="sec-i"><a class="link" href="../reference/data-sources.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Data sources catalogue</span></a><a class="link" href="../reference/api-endpoints.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>API endpoint index</span></a><a class="link" href="../reference/troubleshooting.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Troubleshooting</span></a><a class="link" href="../reference/glossary.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Glossary</span></a><a class="link" href="../reference/video-index.html"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Video tutorial index</span></a></div></div></section></div></nav>
+  <main><h1 id="report-center">Report Center</h1>
+<p><em>Analytics &amp; Reporting › Report Center</em> · Route <code>/reports</code></p>
+<p>The <strong>Report Center</strong> generates ready-made PDF, Excel (XLSX) and CSV reports from the data in every module, and lists the reports you or your colleagues have already run. There are <strong>44 report templates</strong>, each tied to a module and to the tables that module reads.</p>
+<blockquote>
+<p>🎬 <strong>Video tutorial:</strong> <em>coming soon.</em><br />
+<!-- VIDEO-URL: analytics-reporting/report-center | paste the link here, e.g. <a href="https://…">Watch the walkthrough</a> --></p>
+</blockquote>
+<h2 id="highlights">Highlights</h2>
+<ul>
+<li>Generate on demand for any date range, in the formats each template allows.</li>
+<li>Templates are tagged <strong>Scheduled</strong> or <strong>On-demand</strong>.</li>
+<li><strong>Saved Query Templates</strong> from the Query Builder can be run again with <strong>▶ Run Now</strong>.</li>
+<li><strong>Recent Report Runs</strong> shows status (Queued, Generating, completed, Failed), size and who requested it, with <strong>⬇ Download</strong>.</li>
+</ul>
+<h2 id="enabling-and-access">Enabling and access</h2>
+<p>Open <strong>Analytics &amp; Reporting → Report Center</strong> (<code>/reports</code>). The page needs at least the <strong>Operator</strong> tier; <strong>generating</strong> a report additionally needs the <code>run_reports</code> capability (Analyst tier and above in the baseline policy).</p>
+<p><img alt="Report Center" src="../assets/screenshots/reports.webp" /></p>
+<p><img alt="Generate Report window" src="../assets/screenshots/x-reports-generate.webp" /></p>
+<h2 id="generate-a-report">Generate a report</h2>
+<ol>
+<li>Click <strong>+ Generate Report</strong> (top right) or <strong>Generate</strong> on a template card. These appear only if your role has the <code>run_reports</code> capability.</li>
+<li>Choose the <strong>Template</strong>.</li>
+<li>Choose the <strong>Format</strong> (PDF, XLSX or CSV — only the formats the template supports are offered).</li>
+<li>Set <strong>Date From</strong> and <strong>Date To</strong>, and any template-specific options.</li>
+<li>Click <strong>Generate</strong>. The run appears under <strong>Recent Report Runs</strong> as <em>Queued…</em> then <em>Generating…</em>.</li>
+<li>When it completes, click <strong>⬇ Download</strong>. A failed run shows ✕ Failed — try again or contact support.</li>
+</ol>
+<h2 id="run-a-saved-query">Run a saved query</h2>
+<ol>
+<li>Build and test a query in the <a href="query-builder.html">Query Builder</a> and click <strong>Save</strong>.</li>
+<li>Return to <strong>Report Center → Saved Query Templates</strong>.</li>
+<li>Each card shows whether it is <em>Cross-module</em> or <em>Single dataset</em>, its schedule, recipients and last run. Click <strong>▶ Run Now</strong>.</li>
+</ol>
+<h2 id="report-templates">Report templates</h2>
+<p>The catalogue below is read live from <code>GET /api/v1/reports/catalog/</code>. Each report is built from the tables of the module shown; to see how those tables are filled, open the matching module overview.</p>
+<table>
+<thead>
+<tr>
+<th>Template ID</th>
+<th>Name</th>
+<th>Module</th>
+<th>Schedule</th>
+<th>Formats</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exec-weekly</code></td>
+<td>Executive Weekly Digest</td>
+<td>Command Centre</td>
+<td>weekly</td>
+<td>PDF, XLSX</td>
+<td>Cross-agency KPIs, top 5 incidents, top 5 blackspots, system health.</td>
+</tr>
+<tr>
+<td><code>traffic-volume</code></td>
+<td>Traffic Volume &amp; Congestion</td>
+<td>Road Traffic</td>
+<td>daily</td>
+<td>PDF, XLSX, CSV</td>
+<td>Hourly volume per counting station; congestion event log; forecast deltas.</td>
+</tr>
+<tr>
+<td><code>fleet-utilisation</code></td>
+<td>Fleet Utilisation &amp; Geofence Breaches</td>
+<td>Fleet</td>
+<td>daily</td>
+<td>XLSX, CSV</td>
+<td>Per-Sacco utilisation, driver behaviour event rollup, geofence breaches.</td>
+</tr>
+<tr>
+<td><code>psv-compliance</code></td>
+<td>PSV Compliance &amp; Schedule Adherence</td>
+<td>Public Transport</td>
+<td>monthly</td>
+<td>PDF, XLSX</td>
+<td>PSV license register, route compliance %, schedule adherence by route.</td>
+</tr>
+<tr>
+<td><code>safety-incidents</code></td>
+<td>Safety Incidents &amp; Hotspots</td>
+<td>Safety</td>
+<td>weekly</td>
+<td>PDF, XLSX</td>
+<td>Incident counts by type/severity, top blackspots, predictive hotspot map.</td>
+</tr>
+<tr>
+<td><code>infra-condition</code></td>
+<td>Road Condition Index</td>
+<td>Road Infrastructure</td>
+<td>monthly</td>
+<td>PDF, XLSX, CSV</td>
+<td>IRI/PCI by segment, maintenance backlog, deterioration forecasts.</td>
+</tr>
+<tr>
+<td><code>aviation-otp</code></td>
+<td>Aviation OTP &amp; Cargo</td>
+<td>Aviation &amp; Maritime</td>
+<td>daily</td>
+<td>PDF, XLSX</td>
+<td>On-time performance by airline, cargo by commodity, intermodal connections.</td>
+</tr>
+<tr>
+<td><code>rail-throughput</code></td>
+<td>Rail Throughput &amp; Freight</td>
+<td>Railway</td>
+<td>weekly</td>
+<td>PDF, XLSX</td>
+<td>Train on-time %, freight tonnage by line, passenger ridership.</td>
+</tr>
+<tr>
+<td><code>audit-trail</code></td>
+<td>Audit Trail Export</td>
+<td>Access Control</td>
+<td>ad-hoc</td>
+<td>CSV, XLSX</td>
+<td>Filtered audit log dump for compliance review.</td>
+</tr>
+<tr>
+<td><code>national-transport-summary</code></td>
+<td>National Transport Performance Summary Report</td>
+<td>Analytics &amp; Reporting</td>
+<td>daily</td>
+<td>PDF, XLSX</td>
+<td>Overall sector state, modal/agency performance, executive attention items.</td>
+</tr>
+<tr>
+<td><code>agency-kpi-scorecard</code></td>
+<td>Multi-Agency KPI Scorecard Report</td>
+<td>Analytics &amp; Reporting</td>
+<td>monthly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Latest KPI snapshot per agency/metric, freshness, and RMAI performance assessments.</td>
+</tr>
+<tr>
+<td><code>county-corridor-performance</code></td>
+<td>County / Corridor Transport Performance Report</td>
+<td>Analytics &amp; Reporting</td>
+<td>monthly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Cross-modal performance rollup by county and by construction corridor.</td>
+</tr>
+<tr>
+<td><code>agency-data-quality</code></td>
+<td>Agency Data Quality and Integration Health Report</td>
+<td>Analytics &amp; Reporting</td>
+<td>daily</td>
+<td>PDF, XLSX, CSV</td>
+<td>Active/delayed/failing agency data feeds and recent ingestion validation errors.</td>
+</tr>
+<tr>
+<td><code>alerts-threshold-breach</code></td>
+<td>Alerts, Exceptions and Threshold Breach Report</td>
+<td>Analytics &amp; Reporting</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Triggered/unresolved alerts, repeating alert rules, safety response-time breaches.</td>
+</tr>
+<tr>
+<td><code>pt-route-coverage</code></td>
+<td>Public Transport Route Coverage and Frequency Report</td>
+<td>Public Transport</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Route coverage by service type, weekday frequency status, and unscheduled routes.</td>
+</tr>
+<tr>
+<td><code>brt-headway-dwell</code></td>
+<td>BRT Headway, Dwell Time and Boarding Report</td>
+<td>Public Transport</td>
+<td>weekly</td>
+<td>PDF, XLSX</td>
+<td>Planned vs actual BRT headways, stop dwell time and boarding-pressure flags.</td>
+</tr>
+<tr>
+<td><code>sacco-performance</code></td>
+<td>Public Operators / SACCO Performance Report</td>
+<td>Public Transport</td>
+<td>monthly</td>
+<td>PDF, XLSX, CSV</td>
+<td>SACCO registration, ranking, revenue, utilization, complaints, and licence expiry.</td>
+</tr>
+<tr>
+<td><code>pt-fare-revenue</code></td>
+<td>Fare Collection and Revenue by Route / Operator Report</td>
+<td>Public Transport</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Fare revenue by route/operator/channel and week-over-week revenue drops.</td>
+</tr>
+<tr>
+<td><code>pt-demand-capacity</code></td>
+<td>Passenger Demand Forecast and Capacity Report</td>
+<td>Public Transport</td>
+<td>daily</td>
+<td>PDF, XLSX</td>
+<td>24-hour demand forecast vs current/recommended fleet deployment per route.</td>
+</tr>
+<tr>
+<td><code>pt-feedback-complaints</code></td>
+<td>Passenger Feedback and Complaints Report</td>
+<td>Public Transport</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Complaint categories, unresolved/recurring issues by route, and resolution time.</td>
+</tr>
+<tr>
+<td><code>road-safety-incidents</code></td>
+<td>National Road Safety Incident / Accident Report</td>
+<td>Safety</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Incident/accident location, severity and contributing factors; risk by segment and time.</td>
+</tr>
+<tr>
+<td><code>blackspot-high-risk</code></td>
+<td>Blackspot and High-Risk Location Report</td>
+<td>Safety</td>
+<td>monthly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Repeat blackspots, intervention-linked risk trend, and locations needing action.</td>
+</tr>
+<tr>
+<td><code>emergency-response-performance</code></td>
+<td>Emergency Response Performance Report</td>
+<td>Safety</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Ack/response/resolution times by service type and response area, SLA breach concentration.</td>
+</tr>
+<tr>
+<td><code>safety-intervention-effectiveness</code></td>
+<td>Safety Intervention Effectiveness Report</td>
+<td>Safety</td>
+<td>monthly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Intervention effectiveness by type with self-reported and real before/after crash evidence.</td>
+</tr>
+<tr>
+<td><code>road-network-inventory</code></td>
+<td>Road Network Inventory and Condition Report</td>
+<td>Road Infrastructure</td>
+<td>monthly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Road network by agency/class/county, condition distribution, and survey-overdue segments.</td>
+</tr>
+<tr>
+<td><code>road-project-status</code></td>
+<td>Road Infrastructure Project Status Report</td>
+<td>Road Infrastructure</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Project status, physical/financial progress alignment, and escalation flags.</td>
+</tr>
+<tr>
+<td><code>funding-allocation-utilization</code></td>
+<td>Funding Allocation, Disbursement and Utilization Report</td>
+<td>Road Infrastructure</td>
+<td>monthly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Budget allocation/disbursement/utilization by agency, cross-referenced with condition need.</td>
+</tr>
+<tr>
+<td><code>maintenance-work-orders</code></td>
+<td>Maintenance Work Orders and Contractor Performance Report</td>
+<td>Road Infrastructure</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Work order status/priority breakdown, delayed orders, and contractor cost/schedule perf.</td>
+</tr>
+<tr>
+<td><code>bridge-streetlight-wim-assets</code></td>
+<td>Bridge, Streetlight, Signage and WIM Asset Report</td>
+<td>Road Infrastructure</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Bridge/streetlight/signal functional status, inspection overdue, and WIM overload hotspots.</td>
+</tr>
+<tr>
+<td><code>climate-resilience-infrastructure</code></td>
+<td>Climate Resilience and At-Risk Infrastructure Report</td>
+<td>Road Infrastructure</td>
+<td>monthly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Best-effort flood/erosion and deterioration-risk proxies - no real climate-hazard dataset.</td>
+</tr>
+<tr>
+<td><code>flight-operations-airport</code></td>
+<td>Flight Operations and Airport Performance Report</td>
+<td>Aviation &amp; Maritime</td>
+<td>daily</td>
+<td>PDF, XLSX, CSV</td>
+<td>Airport/route/airline on-time performance, cancellations, and design capacity.</td>
+</tr>
+<tr>
+<td><code>aviation-passenger-cargo-stats</code></td>
+<td>Aviation Passenger and Cargo Statistics Report</td>
+<td>Aviation &amp; Maritime</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Passenger volumes by airport/cabin class and cargo volumes by commodity/route.</td>
+</tr>
+<tr>
+<td><code>port-operations-vessel-movement</code></td>
+<td>Port Operations and Vessel Movement Report</td>
+<td>Aviation &amp; Maritime</td>
+<td>daily</td>
+<td>PDF, XLSX, CSV</td>
+<td>Live vessel status, turnaround/waiting time, and berth occupancy by port.</td>
+</tr>
+<tr>
+<td><code>container-throughput-dwell</code></td>
+<td>Container Throughput and Dwell Time Report</td>
+<td>Aviation &amp; Maritime</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>TEU throughput, yard dwell time, gate processing time, and customs clearance gaps.</td>
+</tr>
+<tr>
+<td><code>intermodal-connection-performance</code></td>
+<td>Intermodal Connection Performance Report</td>
+<td>Aviation &amp; Maritime</td>
+<td>weekly</td>
+<td>PDF, XLSX</td>
+<td>Port-rail/port-road/air-road transfer times and onward transport mode volumes.</td>
+</tr>
+<tr>
+<td><code>rail-schedule-adherence</code></td>
+<td>Railway Operations and Schedule Adherence Report</td>
+<td>Railway</td>
+<td>daily</td>
+<td>PDF, XLSX, CSV</td>
+<td>Train/route on-time performance, cancellations, and main delay reasons.</td>
+</tr>
+<tr>
+<td><code>rail-ridership-revenue</code></td>
+<td>Railway Passenger Ridership and Revenue Report</td>
+<td>Railway</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Bookings, revenue, no-shows and occupancy by route and train.</td>
+</tr>
+<tr>
+<td><code>rail-freight-terminal-ops</code></td>
+<td>Rail Freight and Terminal Operations Report</td>
+<td>Railway</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Freight tonnage/revenue by corridor and cargo type, terminals, and low-utilization corridors.</td>
+</tr>
+<tr>
+<td><code>rail-network-inventory</code></td>
+<td>Rail Network and Infrastructure Inventory Report</td>
+<td>Railway</td>
+<td>monthly</td>
+<td>PDF, XLSX, CSV</td>
+<td>SGR/MGR line, station, track-condition and rolling-stock inventory with maintenance flags.</td>
+</tr>
+<tr>
+<td><code>rail-safety-level-crossing</code></td>
+<td>Rail Safety and Level Crossing Report</td>
+<td>Railway</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Incidents by type/severity, high-risk crossings, and open-incident proxy for pending action.</td>
+</tr>
+<tr>
+<td><code>rbac-audit-trail</code></td>
+<td>User Access, RBAC and Audit Trail Report</td>
+<td>Access Control</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Access/action summary, suspicious activity, and role/permission changes needing review.</td>
+</tr>
+<tr>
+<td><code>notification-delivery-escalation</code></td>
+<td>Notification Delivery and Escalation Report</td>
+<td>Access Control</td>
+<td>weekly</td>
+<td>PDF, XLSX, CSV</td>
+<td>Delivery status by channel, alert-fatigue candidates, and repeating alert rules.</td>
+</tr>
+<tr>
+<td><code>data-integration-lineage</code></td>
+<td>Data Integration Lineage and Validation Report</td>
+<td>Access Control</td>
+<td>daily</td>
+<td>PDF, XLSX, CSV</td>
+<td>Data source lineage, pipeline validation outcomes, and batch upload error rates.</td>
+</tr>
+<tr>
+<td><code>gis-layer-spatial-export</code></td>
+<td>GIS Layer and Spatial Analysis Export Report</td>
+<td>Access Control</td>
+<td>weekly</td>
+<td>PDF, XLSX</td>
+<td>GIS layer availability/freshness, spatial engine status, and available export endpoints.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="data-sources-and-feeds">Data sources and feeds</h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Endpoint</th>
+<th>Ingested via</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Template catalogue</td>
+<td><code>GET /reports/catalog/</code></td>
+<td>Defined in UAPTS (configuration), not uploaded.</td>
+</tr>
+<tr>
+<td>Recent runs and downloads</td>
+<td><code>GET /reports/runs/</code></td>
+<td>Created when you generate a report.</td>
+</tr>
+<tr>
+<td>Report contents</td>
+<td>per template</td>
+<td>Read from the module tables — see each module's <strong>Data sources and feeds</strong> section and the <a href="../reference/data-sources.html">Data sources catalogue</a>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="permissions">Permissions</h2>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Report Center</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Public</td>
+<td>No.</td>
+</tr>
+<tr>
+<td>Operator</td>
+<td>Can open the page and download existing runs.</td>
+</tr>
+<tr>
+<td>Analyst, Admin</td>
+<td>Can also generate reports (<code>run_reports</code>).</td>
+</tr>
+<tr>
+<td>Super admin</td>
+<td>All, across agencies.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="related-topics">Related topics</h2>
+<ul>
+<li><a href="query-builder.html">Query Builder</a></li>
+<li><a href="../access-control/audit-trail.html">Audit Trail</a></li>
+</ul>
+<h2 id="on-this-page">On this page</h2>
+<ul>
+<li><a href="#highlights">Highlights</a></li>
+<li><a href="#enabling-and-access">Enabling and access</a></li>
+<li><a href="#generate-a-report">Generate a report</a></li>
+<li><a href="#run-a-saved-query">Run a saved query</a></li>
+<li><a href="#report-templates">Report templates</a></li>
+<li><a href="#data-sources-and-feeds">Data sources and feeds</a></li>
+<li><a href="#permissions">Permissions</a></li>
+<li><a href="#related-topics">Related topics</a></li>
+</ul>
+<h2 id="support">Support</h2>
+<ul>
+<li><strong>Your agency administrator</strong> is the first contact for access, role and data-quality questions.</li>
+<li><strong>Data feeds, templates and API questions:</strong> <code>api-support@uapts.go.ke</code> (include the <code>X-Request-ID</code> response header from a failing call).</li>
+<li><strong>Security concerns:</strong> <code>security@uapts.go.ke</code>. Do not report suspected vulnerabilities publicly.</li>
+</ul></main>
+  <aside class="toc"><b>On this page</b><a href="#highlights">Highlights</a><a href="#enabling-and-access">Enabling and access</a><a href="#generate-a-report">Generate a report</a><a href="#run-a-saved-query">Run a saved query</a><a href="#report-templates">Report templates</a><a href="#data-sources-and-feeds">Data sources and feeds</a><a href="#permissions">Permissions</a><a href="#related-topics">Related topics</a><a href="#on-this-page">On this page</a><a href="#support">Support</a></aside>
+</div>
+<div class="scrim" id="scrim"></div>
+<script>
+const body=document.body, mq=matchMedia('(max-width:860px)');
+const q=document.getElementById('q'), nav=document.querySelector('nav.side'), scroller=document.querySelector('nav.side .scroll');
+const NAV_KEY='uapts-nav', SEC='uapts-sec:';
+
+// Sidebar open/close (desktop collapses the column, phone toggles the drawer)
+if(!mq.matches && localStorage.getItem(NAV_KEY)==='off') body.classList.add('nav-off');
+function toggleNav(){
+  if(mq.matches){ body.classList.toggle('nav-open'); return; }
+  body.classList.toggle('nav-off');
+  try{ localStorage.setItem(NAV_KEY, body.classList.contains('nav-off')?'off':'on'); }catch(e){}
+}
+document.getElementById('navbtn').addEventListener('click', toggleNav);
+document.getElementById('scrim').addEventListener('click', ()=>body.classList.remove('nav-open'));
+mq.addEventListener('change', ()=>body.classList.remove('nav-open'));
+document.addEventListener('keydown', e=>{
+  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){
+    e.preventDefault();
+    if(mq.matches){ body.classList.add('nav-open'); }
+    else if(body.classList.contains('nav-off')){ toggleNav(); }
+    q.focus(); q.select();
+  }
+  if(e.key==='Escape') body.classList.remove('nav-open');
+});
+document.querySelectorAll('nav.side a.link').forEach(a=>a.addEventListener('click', ()=>{
+  if(mq.matches) body.classList.remove('nav-open');
+}));
+
+// Collapsible sections, remembered per section
+document.querySelectorAll('nav.side section.sec').forEach(s=>{
+  const h=s.querySelector('.sec-h'), key=SEC+s.dataset.key;
+  let closed=false; try{ closed=localStorage.getItem(key)==='1'; }catch(e){}
+  if(s.querySelector('a.cur')) closed=false;
+  s.classList.toggle('closed', closed);
+  h.setAttribute('aria-expanded', String(!closed));
+  h.addEventListener('click', ()=>{
+    const c=!s.classList.contains('closed');
+    s.classList.toggle('closed', c);
+    h.setAttribute('aria-expanded', String(!c));
+    try{ localStorage.setItem(key, c?'1':'0'); }catch(e){}
+  });
+});
+
+// Filter pages; while filtering, every matching section is shown open
+q.addEventListener('input', ()=>{
+  const v=q.value.trim().toLowerCase();
+  nav.classList.toggle('filtering', !!v);
+  document.querySelectorAll('nav.side a.link').forEach(a=>
+    a.classList.toggle('hide', !!v && !a.textContent.toLowerCase().includes(v)));
+  document.querySelectorAll('nav.side section.sec').forEach(s=>
+    s.classList.toggle('hide', ![...s.querySelectorAll('a.link')].some(a=>!a.classList.contains('hide'))));
+});
+
+// Keep the current page visible in the sidebar without scrolling the page
+const cur=document.querySelector('nav.side a.cur');
+if(cur && scroller) scroller.scrollTop = cur.offsetTop - scroller.clientHeight/2;
+</script></body></html>

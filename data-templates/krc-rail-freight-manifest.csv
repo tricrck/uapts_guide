@@ -1,0 +1,1 @@
+Manifest Ref (blank = train + date),Train Number * (e.g. F1234),Date * (e.g. 2026-10-01),Wagon Number *,Container Number * (e.g. CSQU3054383),Consignment Ref,Commodity,Weight (t) (e.g. 8.2),Origin Station (code) * (e.g. MSA),Destination Station (code) * (e.g. NBO),Customs Status
